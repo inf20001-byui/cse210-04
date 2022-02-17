@@ -22,9 +22,8 @@ FONT_SIZE = 15
 COLS = 60
 ROWS = 40
 CAPTION = "Greed"
-DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
 WHITE = Color(255, 255, 255)
-DEFAULT_ARTIFACTS = 20
+DEFAULT_ARTIFACTS = 40
 
 
 def main():
@@ -53,16 +52,19 @@ def main():
     cast.add_actor("robots", robot)
     
     # create the artifacts
-    list = [ "0" , "*"]
+    '''
+    o = rocks
+    * = gems
+    The list is used to randomly select the characters
+    '''
+    list = [ "o" , "*"]
 
     for n in range(DEFAULT_ARTIFACTS):
-        #text = chr(random.randint(33, 126))
-        # message = messages[n]
         text = random.choice(list)
 
         x = random.randint(1, COLS - 1)
-        #Always starts at the top   y =  0 
-        y = random.randint(1, ROWS - 30)
+        # never fill in rocks or gems at the bottom of the screen
+        y = random.randint(1, ROWS - 10)
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
 
@@ -76,7 +78,6 @@ def main():
         artifact.set_font_size(FONT_SIZE)
         artifact.set_color(color)
         artifact.set_position(position)
-        # artifact.set_message(message)
         cast.add_actor("artifacts", artifact)
                 
     
