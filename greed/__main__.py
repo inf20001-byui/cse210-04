@@ -27,7 +27,9 @@ DEFAULT_ARTIFACTS = int(40)
 
 
 def main():
-    
+    """
+    Controls the main initialization of the game and starts it
+    """
 
     #set difficulty settings before game display loads
     difficulty = int(input('What level of difficulty would you prefer? 1, 2, or 3 (1 is the easiest)?: '))

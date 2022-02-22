@@ -18,6 +18,7 @@ class Director:
         Args:
             keyboard_service (KeyboardService): An instance of KeyboardService.
             video_service (VideoService): An instance of VideoService.
+            _current_score : A variable to hold the current score.
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service

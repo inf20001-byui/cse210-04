@@ -10,8 +10,13 @@ class Artifact(Actor):
 
     Attributes:
         _message (string): A short description about the artifact.
+        _last_mod (float): Holds a timestamp for the last modification of velocity for the artificats. 
+                           This is used to control artifact scroll speed.
     """
     def __init__(self):
+        """
+        Adds _message details for scoring and _last_mod for artifact movement speed.
+        """
         super().__init__()
         self._message = ""
         self._last_mod = float(0)
