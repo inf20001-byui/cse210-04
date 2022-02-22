@@ -23,11 +23,20 @@ COLS = 60
 ROWS = 40
 CAPTION = "Greed"
 WHITE = Color(255, 255, 255)
-DEFAULT_ARTIFACTS = 40
+DEFAULT_ARTIFACTS = int(40)
 
 
 def main():
     
+
+    #set difficulty settings before game display loads
+    difficulty = int(input('What level of difficulty would you prefer? 1, 2, or 3 (1 is the easiest)?: '))
+    if difficulty == 1:
+        DEFAULT_ARTIFACTS = int(40)
+    elif difficulty == 2:
+        DEFAULT_ARTIFACTS = int(80)
+    elif difficulty == 3:
+        DEFAULT_ARTIFACTS = int(120)
     # create the cast
     cast = Cast()
     
@@ -41,7 +50,7 @@ def main():
     
     # create the robot
     x = int(MAX_X / 2)
-    y = int(MAX_Y - 30)
+    y = int(MAX_Y - CELL_SIZE)
     position = Point(x, y)
 
     robot = Actor()
@@ -57,20 +66,23 @@ def main():
     * = gems
     The list is used to randomly select the characters
     '''
-    list = [ "o" , "*"]
+    list = [ "O" , "*"]
 
     for n in range(DEFAULT_ARTIFACTS):
         text = random.choice(list)
+        if text == '*':
+            message = +1
+        else:
+            message = -1
 
         x = random.randint(1, COLS - 1)
-        # never fill in rocks or gems at the bottom of the screen
-        y = random.randint(1, ROWS - 10)
+        y = random.randint(1, ROWS - 1)
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
 
-        r = random.randint(1, 255)
-        g = random.randint(1, 255)
-        b = random.randint(1, 255)
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
         color = Color(r, g, b)
         
         artifact = Artifact()
@@ -78,6 +90,8 @@ def main():
         artifact.set_font_size(FONT_SIZE)
         artifact.set_color(color)
         artifact.set_position(position)
+        artifact.set_message(message)
+        artifact.set_last_mod()
         cast.add_actor("artifacts", artifact)
                 
     
@@ -85,7 +99,7 @@ def main():
     keyboard_service = KeyboardService(CELL_SIZE)
     video_service = VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE)
     director = Director(keyboard_service, video_service)
-    director.start_game(cast)
+    director.start_game(cast, COLS, CELL_SIZE, difficulty)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from game.casting.actor import Actor
+import datetime
 
 
 class Artifact(Actor):
@@ -13,6 +14,7 @@ class Artifact(Actor):
     def __init__(self):
         super().__init__()
         self._message = ""
+        self._last_mod = float(0)
                 
     def get_message(self):
         """Gets the artifact's message.
@@ -29,6 +31,24 @@ class Artifact(Actor):
             message (string): The given message.
         """
         self._message = message
+
+    def get_last_mod(self):
+        """Gets the artifact's last modifacation time stamp.
+        
+        Returns:
+            float: The last modifacation time stamp.
+        """
+        return self._last_mod
+
+    def set_last_mod(self):
+        """Updates the last modifaction attribute.
+        
+        Args:
+            last_mod (float): The given timestamp
+        """
+        current_time = datetime.datetime.now()
+        timestamp =current_time.timestamp()
+        self._last_mod = timestamp
     
     
  
