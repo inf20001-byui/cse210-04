@@ -49,6 +49,7 @@ class Director:
 
     def _do_updates(self, cast, cols, cell_size, difficulty):
         """Updates the robot's position, the artifact positions, and resolves any collisions with artifacts.
+           Allows user to pick the level of difficulty in the program.
         
         Args:
             cast (Cast): The cast of actors.

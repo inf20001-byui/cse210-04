@@ -66,7 +66,7 @@ def main():
     '''
     o = rocks
     * = gems
-    The list is used to randomly select the characters
+    The 'list' is used to randomly select the characters
     '''
     list = [ "O" , "*"]
 

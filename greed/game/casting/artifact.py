@@ -47,8 +47,9 @@ class Artifact(Actor):
 
     def set_last_mod(self):
         """Updates the last modifaction attribute.
-        
+                
         Args:
+            current_time (float): the current date and time.  Used to track difference of modified items.
             last_mod (float): The given timestamp
         """
         current_time = datetime.datetime.now()
