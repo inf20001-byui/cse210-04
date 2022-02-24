@@ -12,6 +12,7 @@ class Artifact(Actor):
         _message (string): A short description about the artifact.
         _last_mod (float): Holds a timestamp for the last modification of velocity for the artificats. 
                            This is used to control artifact scroll speed.
+        _display (int): holds variable for display status. A negative display value will prevent display.
     """
     def __init__(self):
         """
@@ -20,6 +21,7 @@ class Artifact(Actor):
         super().__init__()
         self._message = ""
         self._last_mod = float(0)
+        self._display = int()
                 
     def get_message(self):
         """Gets the artifact's message.
@@ -55,9 +57,22 @@ class Artifact(Actor):
         current_time = datetime.datetime.now()
         timestamp =current_time.timestamp()
         self._last_mod = timestamp
+
+    def get_display(self):
+        """Gets the artifact's display status.
+        
+        Returns:
+            display (integer): the display status value.
+        """
+        return self._display
     
-    
- 
+    def set_display(self, display):
+        """Updates the display.
+        
+        Args:
+            display (integer): the display status value.
+        """
+        self._display = int(display)
         
 
         
