@@ -24,7 +24,7 @@ class Director:
         self._video_service = video_service
         self._current_score = int(0)
 
-    def start_game(self, cast, cols, cell_size, difficulty):
+    def start_game(self, cast, cols, rows, cell_size, difficulty, Color):
         """Starts the game using the given cast. Runs the main game loop.
 
         Args:
@@ -33,7 +33,7 @@ class Director:
         self._video_service.open_window()
         while self._video_service.is_window_open():
             self._get_inputs(cast)
-            self._do_updates(cast, cols, cell_size, difficulty)
+            self._do_updates(cast, cols, rows, cell_size, difficulty, Color)
             self._do_outputs(cast)
         self._video_service.close_window()
 
@@ -47,7 +47,7 @@ class Director:
         velocity = self._keyboard_service.get_direction()
         robot.set_velocity(velocity)
 
-    def _do_updates(self, cast, cols, cell_size, difficulty):
+    def _do_updates(self, cast, cols, rows, cell_size, difficulty, Color):
         """Updates the robot's position, the artifact positions, and resolves any collisions with artifacts.
            Allows user to pick the level of difficulty in the program.
         
@@ -65,7 +65,7 @@ class Director:
             timeDelay = .1
 
         x = random.randint(1, cols - 1)
-        aPosition = Point(x, 1)
+        aPosition = Point(x, 0)
         aPosition = aPosition.scale(cell_size)
 
         banner = cast.get_first_actor("banners")
@@ -80,17 +80,38 @@ class Director:
         robot.move_next(max_x,max_y)
                 
         for artifact in artifacts:
+            x = random.randint(1, cols - 1)
+            aPosition = Point(x, 0)
+            aPosition = aPosition.scale(cell_size)
+            if artifact.get_display() == 0:
+                r = random.randint(0, 255)
+                g = random.randint(0, 255)
+                b = random.randint(0, 255)
+                color = Color(r, g, b)
+                artifact.set_color(color)
+                artifact.set_display(1)
+                if artifact.get_text() == '*':
+                    artifact.set_message(+1)
+                else:
+                    artifact.set_message(-1)
             if robot.get_position().equals(artifact.get_position()):
                 message = artifact.get_message()
                 self._current_score += message
                 banner.set_text(f"Score: {self._current_score}")
                 artifact.set_position(aPosition)
-            # Works with timeDelay settings for difficulty settings
+                # Works with timeDelay settings for difficulty settings
             if (currentTimeStamp - artifact.get_last_mod()) > timeDelay:
                 aDirection = Point(0, cell_size)
                 artifact.set_velocity(aDirection)
                 artifact.move_next(max_x, max_y)
                 artifact.set_last_mod()
+                display = artifact.get_display()
+                new_display = display + 1
+                artifact.set_display(new_display)
+                if artifact.get_position().get_y() == 0:
+                    artifact.set_position(aPosition)
+                    
+
 
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
